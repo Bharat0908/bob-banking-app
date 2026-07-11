@@ -1,0 +1,24 @@
+/* custom.css — Project-specific Bootstrap overrides. */
+
+html, body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > main {
+  flex: 1 0 auto;
+}
+
+@media (max-width: 576px) {
+  .navbar-brand { font-size: 1rem; }
+}
+
+.display-5 { word-break: keep-all; }
+
+.card {
+  transition: box-shadow 0.15s ease-in-out;
+}
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}
