@@ -106,10 +106,19 @@ def create_app(secret_key: str = None):
         customer = get_customer_by_id(session["customer_id"])
         if request.method == "POST":
             amount_str = request.form.get("amount", "").strip()
+            if not amount_str:
+                flash("Amount is required.", "danger")
+                return render_template("withdraw.html", customer=customer)
             try:
                 amount = float(amount_str)
             except (ValueError, TypeError):
                 flash("Please enter a valid numeric amount.", "danger")
+                return render_template("withdraw.html", customer=customer)
+            if amount <= 0:
+                flash("Amount must be greater than zero.", "danger")
+                return render_template("withdraw.html", customer=customer)
+            if amount > customer.balance:
+                flash("Insufficient funds.", "danger")
                 return render_template("withdraw.html", customer=customer)
             result = withdraw_funds(session["customer_id"], amount)
             if result["success"]:
